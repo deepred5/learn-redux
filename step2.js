@@ -1,4 +1,4 @@
-import { createStore, combineReducers, bindActionCreators } from './src/index';
+import { createStore, combineReducers } from './src/index';
 
 const NAME = 'NAME';
 const AGE = 'AGE';
@@ -54,8 +54,6 @@ function addHobby(hobby) {
 const appReducer = combineReducers({ test: app1, hobby: app2 })
 const store = createStore(appReducer);
 
-const boundActionCreators = bindActionCreators({ changAge, changeName, addHobby }, store.dispatch);
-
 const a = store.subscribe(() => {
   console.log('subscribe1');
   console.log(store.getState());
@@ -65,8 +63,9 @@ const b = store.subscribe(() => {
   console.log('subscribe2');
 });
 
-boundActionCreators.changAge(11);
-boundActionCreators.changeName('cody');
-boundActionCreators.addHobby('dog');
+store.dispatch(changAge(11));
+store.dispatch(changeName('cody'));
+store.dispatch(addHobby('dog'));
+store.dispatch(addHobby('dog1'));
 
 window.store = store;
