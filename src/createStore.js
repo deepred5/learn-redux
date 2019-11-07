@@ -1,5 +1,19 @@
-export default function createStore(reducer, preloadedState) {
+export default function createStore(reducer, preloadedState, enhancer) {
   console.log('createStore start!');
+
+  // 第二个参数传enhancer，不传preloadedState
+  if (typeof preloadedState === 'function' && typeof enhancer === 'undefined') {
+    enhancer = preloadedState
+    preloadedState = undefined
+  }
+
+  if (typeof enhancer !== 'undefined') {
+    if (typeof enhancer !== 'function') {
+      throw new Error('Expected the enhancer to be a function.')
+    }
+    // 中间件
+    return enhancer(createStore)(reducer, preloadedState)
+  }
 
   let currentState = preloadedState;
   let currentListeners = [];

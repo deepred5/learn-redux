@@ -1,5 +1,4 @@
-import { createStore, combineReducers, bindActionCreators, applyMiddleware } from './src/index';
-import thunk from './redux-thunk';
+import { createStore, combineReducers, bindActionCreators } from './src/index';
 
 const NAME = 'NAME';
 const AGE = 'AGE';
@@ -52,28 +51,8 @@ function addHobby(hobby) {
   }
 }
 
-// 异步action
-function addHobbyAsync(hobby) {
-  return (dispatch) => {
-    setTimeout(() => {
-      // Yay! Can invoke sync or async actions with `dispatch`
-      dispatch(addHobby(hobby));
-    }, 1500);
-  };
-}
-
-const logger = store => next => action => {
-  console.log('dispatching', action)
-  let result = next(action)
-  console.log('next state', store.getState())
-  return result
-}
-
-const appReducer = combineReducers({ test: app1, hobby: app2 });
-
-const middleware = applyMiddleware(logger, thunk);
-
-const store = createStore(appReducer, middleware);
+const appReducer = combineReducers({ test: app1, hobby: app2 })
+const store = createStore(appReducer, { test: { name: 'deepred', age: 41 }, hobby: ['cat'] });
 
 const boundActionCreators = bindActionCreators({ changAge, changeName, addHobby }, store.dispatch);
 
@@ -88,7 +67,5 @@ const b = store.subscribe(() => {
 
 boundActionCreators.changAge(11);
 boundActionCreators.addHobby('dog');
-
-store.dispatch(addHobbyAsync('pig'))
 
 window.store = store;
