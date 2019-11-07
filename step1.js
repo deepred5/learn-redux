@@ -1,10 +1,10 @@
-import { createStore, combineReducers } from './src/index';
+import { createStore } from './src/index';
 
 const NAME = 'NAME';
 const AGE = 'AGE';
 const HOBBY = 'HOBBY';
 
-function app1(state = { name: 'tc', age: 10 }, action) {
+function app(state = { name: 'tc', age: 10, hobby: [] }, action) {
   switch (action.type) {
     case NAME:
       return {
@@ -16,15 +16,11 @@ function app1(state = { name: 'tc', age: 10 }, action) {
         ...state,
         age: action.age
       }
-    default:
-      return state;
-  }
-}
-
-function app2(state = [], action) {
-  switch (action.type) {
     case HOBBY:
-      return [...state, action.hobby]
+      return {
+        ...state,
+        hobby: [...state.hobby, action.hobby]
+      }
     default:
       return state;
   }
@@ -51,12 +47,11 @@ function addHobby(hobby) {
   }
 }
 
-const appReducer = combineReducers({ test: app1, hobby: app2 })
-const store = createStore(appReducer);
+const store = createStore(app);
 
 const a = store.subscribe(() => {
   console.log('subscribe1');
-  console.log(store.getState());
+  // console.log(store.getState());
 });
 
 const b = store.subscribe(() => {
