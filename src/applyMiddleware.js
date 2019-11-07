@@ -21,6 +21,7 @@ export default function applyMiddleware(...middlewares) {
       )
     };
 
+    // 模拟store的数据结构，鸭子类型
     const middlewareAPI = {
       getState: store.getState,
       dispatch: (...args) => dispatch(...args)
@@ -58,9 +59,10 @@ export default function applyMiddleware(...middlewares) {
       }
      */
 
-    // 重新赋值，替换最初会报错的dispatch
+    // 重新赋值，替换最初会报错的dispatch，加强版dispatch
     dispatch = compose(...chain)(store.dispatch);
 
+    // 返回一个类似store的对象，这里的dispatch已经被替换成加强版的了，并非是最初的store.dispatch
     return {
       ...store,
       dispatch

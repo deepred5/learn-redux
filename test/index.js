@@ -1,4 +1,4 @@
-import { createStore, combineReducers, bindActionCreators, applyMiddleware } from './src/index';
+import { createStore, combineReducers, bindActionCreators, applyMiddleware } from '../src/index';
 import thunk from './redux-thunk';
 
 const NAME = 'NAME';
@@ -88,7 +88,8 @@ const b = store.subscribe(() => {
 
 boundActionCreators.changAge(11);
 boundActionCreators.addHobby('dog');
-
+// 取消订阅
+b();
 store.dispatch(addHobbyAsync('pig'))
 
 window.store = store;
