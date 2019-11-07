@@ -1,3 +1,5 @@
+// 从右往左执行
+
 export default function compose(...funcs) {
   if (funcs.length === 0) {
     return arg => arg

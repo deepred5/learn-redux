@@ -51,6 +51,9 @@ export default function applyMiddleware(...middlewares) {
 
     /**
      * 每个middlewareBack又被调用一次，并且前一个middlewareBack的返回值作为下一个middlewareBack的参数
+     * 
+     * 从右往左执行中间件，store.dispatch作为第一个参数被传给最后一个中间件，返回的函数也就是next，传给下一个中间件，层层传递，最后返回一个加强版的dispatch
+     * 
      * const middlewareBackBack = action => {
         console.log('dispatching', action)
         let result = next(action)
@@ -59,7 +62,7 @@ export default function applyMiddleware(...middlewares) {
       }
      */
 
-    // 重新赋值，替换最初会报错的dispatch，加强版dispatch
+    // 重新赋值，加强版dispatch
     dispatch = compose(...chain)(store.dispatch);
 
     // 返回一个类似store的对象，这里的dispatch已经被替换成加强版的了，并非是最初的store.dispatch
